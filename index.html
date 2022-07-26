@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Weather Dashboard</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet">
+    <!-- Bulma Version 0.9.0-->
+    <link rel="stylesheet" href="https://unpkg.com/bulma@0.9.0/css/bulma.min.css" />
+    <link rel="stylesheet" type="text/css" href="../css/admin.css">
+</head>
+
+<body>
+
+    <!-- START NAV -->
+    <nav class="navbar is-white">
+        <div class="container">
+            <div class="navbar-brand">
+                <a class="navbar-item brand-text" href="../index.html">
+          Weather Dashboard
+        </a>
+                <!-- <div class="navbar-burger burger" data-target="navMenu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div> --> 
+            </div>
+        </div>
+    </nav>
+    <!-- END NAV -->
+    <div class="container">
+        <div class="columns">
+            <!-- <div class="column is-3 ">
+                <aside class="menu is-hidden-mobile">
+                    <p class="menu-label">
+                        General
+                    </p>
+                    <ul class="menu-list">
+                        <li><a class="is-active">Dashboard</a></li>
+                        <li><a>Customers</a></li>
+                        <li><a>Other</a></li>
+                    </ul>
+                    <p class="menu-label">
+                        Administration
+                    </p>
+                    <ul class="menu-list">
+                        <li><a>Team Settings</a></li>
+                        <li>
+                            <a>Manage Your Team</a>
+                            <ul>
+                                <li><a>Members</a></li>
+                                <li><a>Plugins</a></li>
+                                <li><a>Add a member</a></li>
+                                <li><a>Remove a member</a></li>
+                            </ul>
+                        </li>
+                        <li><a>Invitations</a></li>
+                        <li><a>Cloud Storage Environment Settings</a></li>
+                        <li><a>Authentication</a></li>
+                        <li><a>Payments</a></li>
+                    </ul>
+                    <p class="menu-label">
+                        Transactions
+                    </p>
+                    <ul class="menu-list">
+                        <li><a>Payments</a></li>
+                        <li><a>Transfers</a></li>
+                        <li><a>Balance</a></li>
+                        <li><a>Reports</a></li>
+                    </ul>
+                </aside>
+            </div> -->
+            <div class="column is-12">
+                <section class="hero is-info welcome is-small">
+                    <div class="hero-body">
+                        <div class="container">
+                            <h1 class="title">
+                                Weather for Today
+                            </h1>
+                            <h2 id="date-target" class="subtitle">
+                                --
+                            </h2>
+                        </div>
+                    </div>
+                </section>
+                <section class="box">
+                    <h4 id="city" class="title is-3">--</h4>
+                    <ul class="menu-list">
+                        <li><span class="tag is-white is-medium">Temp:</span><span id="temp-target">-- °C </span></li>
+                        <li><span class="tag is-white is-medium">Wind:</span><span id="wind-target">-- km/h</span></li>
+                        <li><span class="tag is-white is-medium">Humidity</span><span id="humdity-target">-- %</span></li>
+                        <li><span class="tag is-white is-medium">UV index:</span><span id="UVI-target" class="tag is-link">--</span></li>
+                    </ul>
+                </section>
+                <section class="info-tiles">
+                    <div class="tile is-ancestor has-text-centered">
+                        <div class="tile is-parent">
+                            <article class="tile is-child box">
+                                <p id="date-1" class="title">--/--/----</p>
+                                <p class="subtitle">Temp: <span id="5day-Temp1" >--</span></p>
+                                <p class="subtitle">Wind: <span id="5day-Wind1" >--</span></p>
+                                <p class="subtitle">Humidity: <span id="5day-Hum1" >--</span></p>
+                                <p class="subtitle">UV Index: <span id="5day-UVI1" >--</span></p>
+                            </article>
+                        </div>
+                        <div class="tile is-parent">
+                            <article class="tile is-child box">
+                                <p id="date-2" class="title">--/--/----</p>
+                                <p class="subtitle">Temp: <span id="5day-Temp2" >--</span></p>
+                                <p class="subtitle">Wind: <span id="5day-Wind2" >--</span></p>
+                                <p class="subtitle">Humidity: <span id="5day-Hum2" >--</span></p>
+                                <p class="subtitle">UV Index: <span id="5day-UVI2" >--</span></p>
+                            </article>
+                        </div>
+                        <div class="tile is-parent">
+                            <article class="tile is-child box">
+                                <p id="date-3" class="title">--/--/----</p>
+                                <p class="subtitle">Temp: <span id="5day-Temp3" >--</span></p>
+                                <p class="subtitle">Wind: <span id="5day-Wind3" >--</span></p>
+                                <p class="subtitle">Humidity: <span id="5day-Hum3" >--</span></p>
+                                <p class="subtitle">UV Index: <span id="5day-UVI3" >--</span></p>
+                            </article>
+                        </div>
+                        <div class="tile is-parent">
+                            <article class="tile is-child box">
+                                <p id="date-4" class="title">--/--/----</p>
+                                <p class="subtitle">Temp: <span id="5day-Temp4" >--</span></p>
+                                <p class="subtitle">Wind: <span id="5day-Wind4" >--</span></p>
+                                <p class="subtitle">Humidity: <span id="5day-Hum4" >--</span></p>
+                                <p class="subtitle">UV Index: <span id="5day-UVI4" >--</span></p>
+                            </article>
+                        </div>
+                        <div class="tile is-parent">
+                            <article class="tile is-child box">
+                                <p id="date-5" class="title">--/--/----</p>
+                                <p class="subtitle">Temp: <span id="5day-Temp5" >--</span></p>
+                                <p class="subtitle">Wind: <span id="5day-Wind5" >--</span></p>
+                                <p class="subtitle">Humidity: <span id="5day-Hum5" >--</span></p>
+                                <p class="subtitle">UV Index: <span id="5day-UVI5" >--</span></p>
+                            </article>
+                        </div>
+                    </div>
+                </section>
+                <div class="columns">
+                    <div class="column is-6">
+                        <div class="card events-card">
+                            <header class="card-header">
+                                <p class="card-header-title">
+                                    History
+                                </p>
+                            </header>
+                            <div class="card-table">
+                                <div class="content">
+                                    <table class="table is-fullwidth is-striped">
+                                        <tbody>
+                                            <tr>
+                                                <td width="5%"><i class="fa fa-clock-o"></i></td>
+                                                <td>City</td>
+                                                <td class="level-right"><a class="button is-small is-primary" href="#">View</a></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <footer class="card-footer">
+                                <a href="#" class="card-footer-item">Clear History</a>
+                            </footer>
+                        </div>
+                    </div>
+                    <div class="column is-6">
+                        <div class="card">
+                            <header class="card-header">
+                                <p class="card-header-title">
+                                    Search Weather by City
+                                </p>
+                                <a href="#" class="card-header-icon" aria-label="more options">
+                  <span class="icon">
+                    <i class="fa fa-angle-down" aria-hidden="true"></i>
+                  </span>
+                </a>
+                            </header>
+                            <div class="card-content">
+                                <div class="content">
+                                    <div class="control has-icons-left">
+                                        <input class="input is-large" type="text" placeholder="City Name">
+                                        <span class="icon is-medium is-left">
+                      <i class="fa fa-search"></i>
+                    </span>
+                                    </div>
+                                </div>
+                                <footer class="buttons has-addons card-footer">
+                                    <button class="button card-footer-item is-primary">
+                                        Search
+                                      </button>
+                                      <button class="button card-footer-item is-danger">
+                                        Clear Searchbar
+                                      </button>
+                                </footer>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script async type="text/javascript" src="../js/bulma.js"></script>
+</body>
+
+</html>
