@@ -6,13 +6,8 @@ let weatherContents = {}
 let searchElements = {
     element: "7f131d38f4522306e0a68bfbf8394fcd"
 }
-let historyData = {
-    history1: [],
-    history2: [],
-    history3: [],
-    history4: [],
-    history5: []
-}
+
+let historyData = []
 
 //Declare Functions
 function displayWeather(weatherObj){
@@ -59,9 +54,26 @@ function displayWeather(weatherObj){
     
     for (let i = 1; i < weatherObj.daily.length; i++) {
         let dayTarget = $("#date-"+i)
+        let dayIconTarget = $("#day"+i+"-icon-target")
+        let dayTempTarget = $("#5day-Temp"+i)
+        let dayWindTarget = $("#5day-Wind"+i)
+        let dayHumTarget = $("#5day-Hum"+i)
+
+        dayTarget.html(weatherObj.daily[i].date)
+        dayIconTarget.html(weatherObj.daily[i].iconURL)
+        dayTempTarget.html(weatherObj.daily[i].temp)
+        dayWindTarget.html(weatherObj.daily[i].wind)
+        dayHumTarget.html(weatherObj.daily[i].humidity)
         
       }
-
+    //   weatherObj.daily[i].date = moment.unix(data.daily[i].dt).format("MM/DD/YYYY")
+    //   weatherObj.daily[i].temp = data.daily[i].temp.day
+    //   weatherObj.daily[i].wind = data.daily[i].wind_speed + " km/h"
+    //   weatherObj.daily[i].humidity = data.daily[i].humidity + " %"
+    //   weatherObj.daily[i].iconCode = data.daily[i].weather[0].icon
+    //   weatherObj.daily[i].status = data.daily[i].weather[0].main
+    //   weatherObj.daily[i].iconURL = "<img src='https://openweathermap.org/img/wn/"+ weatherObj.daily[i].iconCode + ".png'> ("+weatherObj.daily[i].status+")"
+    //   weatherObj.daily[i].spanHTML ="<span class= 'tag is-large is-info mb-3' id='icon-target'>"+weatherObj.daily[i].iconURL+"</span>"
 
     
 
@@ -82,9 +94,46 @@ function ApiConnect(searchArg){
                     console.log(data)
                     weatherObj.UVI = data.current.uvi
                     weatherObj.daily = data.daily
+                    // debugger
+
+                    if(historyData.length == 5){
+                        for (let i = 0; i < historyData.length; i++) {
+                            if(historyData[i]== searchArg){
+                                break;
+                            }
+                            else{
+                                historyData.shift()
+                                historyData.push(searchArg)
+                            }
+                        }
+                    }
+                    else{
+                        for (let i = 0; i < historyData.length; i++) {
+                            if(historyData[i] == searchArg){
+                                break
+                            }
+                            else{
+                                historyData.push(searchArg)
+                            }
+                        }
+                        
+                    }
+                    console.log(historyData)
+                    
+
+                    for (let i = 1; i < data.daily.length; i++) {
+                        weatherObj.daily[0] = ""
+                        weatherObj.daily[i].date = moment.unix(data.daily[i].dt).format("MM/DD/YYYY")
+                        weatherObj.daily[i].temp = data.daily[i].temp.day
+                        weatherObj.daily[i].wind = data.daily[i].wind_speed + " km/h"
+                        weatherObj.daily[i].humidity = data.daily[i].humidity + " %"
+                        weatherObj.daily[i].iconCode = data.daily[i].weather[0].icon
+                        weatherObj.daily[i].status = data.daily[i].weather[0].main
+                        weatherObj.daily[i].iconURL = "<img src='https://openweathermap.org/img/wn/"+ weatherObj.daily[i].iconCode + ".png'> ("+weatherObj.daily[i].status+")"
+                    
+                      }
 
                     searchButton.removeClass('is-loading')
-
                     displayWeather(weatherObj)
 
                 })
@@ -115,7 +164,8 @@ function ApiConnect(searchArg){
                      dataToUse.CurrentHum = data.main.humidity + " %"
                      dataToUse.Date = moment.unix(data.dt).format("MM/DD/YYYY")
                      dataToUse.iconCode = data.weather[0].icon
-                     dataToUse.iconURL = "<img src='https://openweathermap.org/img/wn/"+ data.weather[0].icon + ".png'>"
+                     dataToUse.status = data.weather[0].main
+                     dataToUse.iconURL = "<img src='https://openweathermap.org/img/wn/"+ dataToUse.iconCode + ".png'> ("+dataToUse.status+")"
                      dataToUse.spanHTML = "<span class= 'tag is-large is-info mb-3' id='icon-target'>"+dataToUse.iconURL+"</span>"
                     return UVConnect(dataToUse)
                     // return dataToUse
