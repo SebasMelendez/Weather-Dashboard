@@ -122,7 +122,7 @@ function displayWeather(weatherObj){
 }
 
 function ApiConnect(searchArg){
-
+    searchButton.addClass('is-loading')
     //function declarations for API Calls
     function UVConnect(weatherObj){
         lat = weatherObj.lat
@@ -229,7 +229,6 @@ load()
 // Execute
 searchButton.on("click",function(){
     searchterms = searchfield.val()
-    searchButton.addClass('is-loading')
     ApiConnect(searchterms)
 
 })
