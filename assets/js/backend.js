@@ -11,6 +11,16 @@ let searchElements = {
     element: "7f131d38f4522306e0a68bfbf8394fcd"
 }
 
+function load(){
+    historyData = JSON.parse(localStorage.getItem("historyDataArchive"))
+    if(!historyData){
+        historyData = []
+    }
+    else{
+        createHistoryCard()
+    }
+    
+}
 
 function clearHistory(array){
 
@@ -22,7 +32,7 @@ function clearHistory(array){
 
 }
 
-function createHistoryCard(city){
+function createHistoryCard(){
 
     let reversedHistory = historyData.reverse()
 
@@ -46,6 +56,8 @@ function createHistoryCard(city){
         historyTarget.append(historyCard)
     }   
     revertReverse = historyData.reverse()
+    localStorage.removeItem("historyDataArchive")
+    localStorage.setItem("historyDataArchive",JSON.stringify(revertReverse))
 
         
 }
@@ -213,6 +225,7 @@ function ApiConnect(searchArg){
     weatherConnect();
 }
 
+load()
 // Execute
 searchButton.on("click",function(){
     searchterms = searchfield.val()
@@ -228,6 +241,7 @@ clearButton.on("click",function(){
 ClearHistoryBtn.on("click", function(){
     clearHistory(historyData)
     historyData = []
+    localStorage.removeItem("historyDataArchive")
 })
 
 historyTarget.on("click",function(event,target){
