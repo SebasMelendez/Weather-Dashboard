@@ -2,18 +2,57 @@
 let searchfield = $("#search-target");
 let searchButton = $("#searchBtn-target")
 let clearButton = $("#clearBtn-target")
+let ClearHistoryBtn = $("#ClearHistory")
+let historyTarget = $("#history-target")
+let historyData = []
+let searchterms
 let weatherContents = {}
 let searchElements = {
     element: "7f131d38f4522306e0a68bfbf8394fcd"
 }
 
-let historyData = []
 
+function clearHistory(array){
+
+    for (let i = 0; i < array.length; i++) { 
+        let cardtoRM = historyTarget.find("#cityCard"+i)
+        cardtoRM.remove()
+    }
+
+
+}
+
+function createHistoryCard(city){
+
+    let reversedHistory = historyData.reverse()
+
+    clearHistory(reversedHistory)
+
+    for (let i = 0; i < reversedHistory.length; i++) { 
+        let iconbit = $("<i>").addClass("fa fa-clock-o")
+        let iconholder = $("<td>").attr("width","5%")
+        let content = $("<td>").html(reversedHistory[i]).attr("id","content"+i)
+        let buttonBit = $("<a>").addClass("button is-small is-primary").html("Search Again")
+        buttonBit.attr("id","historyButton"+i)
+        let buttonHolder = $("<td>").addClass("level-right")
+        let historyCard = $("<tbody>").attr("id","cityCard"+i)
+        let container = $("<tr>")
+        iconholder.append(iconbit)
+        buttonHolder.append(buttonBit)
+        container.append(iconholder)
+        container.append(content)
+        container.append(buttonHolder)
+        historyCard.append(container)
+        historyTarget.append(historyCard)
+    }   
+    revertReverse = historyData.reverse()
+
+        
+}
 //Declare Functions
 function displayWeather(weatherObj){
 
     //display today's weather
-    console.log("full data",weatherObj)
     let dateTarget     = $("#date-target")
     let cityTarget     = $("#city-target")
     let tempTarget     = $("#temp-target")
@@ -64,18 +103,9 @@ function displayWeather(weatherObj){
         dayTempTarget.html(weatherObj.daily[i].temp)
         dayWindTarget.html(weatherObj.daily[i].wind)
         dayHumTarget.html(weatherObj.daily[i].humidity)
-        
-      }
-    //   weatherObj.daily[i].date = moment.unix(data.daily[i].dt).format("MM/DD/YYYY")
-    //   weatherObj.daily[i].temp = data.daily[i].temp.day
-    //   weatherObj.daily[i].wind = data.daily[i].wind_speed + " km/h"
-    //   weatherObj.daily[i].humidity = data.daily[i].humidity + " %"
-    //   weatherObj.daily[i].iconCode = data.daily[i].weather[0].icon
-    //   weatherObj.daily[i].status = data.daily[i].weather[0].main
-    //   weatherObj.daily[i].iconURL = "<img src='https://openweathermap.org/img/wn/"+ weatherObj.daily[i].iconCode + ".png'> ("+weatherObj.daily[i].status+")"
-    //   weatherObj.daily[i].spanHTML ="<span class= 'tag is-large is-info mb-3' id='icon-target'>"+weatherObj.daily[i].iconURL+"</span>"
+    }
 
-    
+
 
 }
 
@@ -89,36 +119,32 @@ function ApiConnect(searchArg){
         fetch(WeatherURL)
         .then(function(response){
             if(response.ok){
-                // console.log(response)
                 response.json().then(function(data){
-                    console.log(data)
                     weatherObj.UVI = data.current.uvi
                     weatherObj.daily = data.daily
-                    // debugger
+                    
+                    let add =  true
 
-                    if(historyData.length == 5){
-                        for (let i = 0; i < historyData.length; i++) {
-                            if(historyData[i]== searchArg){
-                                break;
-                            }
-                            else{
-                                historyData.shift()
-                                historyData.push(searchArg)
-                            }
-                        }
-                    }
-                    else{
+                    if(historyData.length > 0){
                         for (let i = 0; i < historyData.length; i++) {
                             if(historyData[i] == searchArg){
-                                break
-                            }
-                            else{
-                                historyData.push(searchArg)
+                                add = false
                             }
                         }
-                        
                     }
-                    console.log(historyData)
+                    
+                    if(add){
+                        if(historyData.length == 5){
+                            historyData.shift()
+                            historyData.push(searchArg) 
+                            createHistoryCard(searchArg)
+                        }
+                        else{
+                            historyData.push(searchArg)
+                            createHistoryCard(searchArg)
+                        }
+
+                    }
                     
 
                     for (let i = 1; i < data.daily.length; i++) {
@@ -153,7 +179,6 @@ function ApiConnect(searchArg){
     fetch(latLongURL)
         .then(function(response){
             if(response.ok){
-                // console.log(response)
                 response.json().then(function(data){
                     let dataToUse = {}
                      dataToUse.lat = data.coord.lat
@@ -188,18 +213,34 @@ function ApiConnect(searchArg){
     weatherConnect();
 }
 
-
-
-
-
-
 // Execute
 searchButton.on("click",function(){
-    let searchterms = searchfield.val()
+    searchterms = searchfield.val()
     searchButton.addClass('is-loading')
     ApiConnect(searchterms)
 
 })
 clearButton.on("click",function(){
+
     searchfield.val("")
+})
+
+ClearHistoryBtn.on("click", function(){
+    clearHistory(historyData)
+    historyData = []
+})
+
+historyTarget.on("click",function(event,target){
+    // debugger
+    let targetEl = event.target
+    
+    if(targetEl.matches(".button")){
+        let idIndex = targetEl.id.replace("historyButton","")
+        let content = $("#content"+idIndex)
+        searchterms = content.html()
+        searchfield.val(searchterms)
+        ApiConnect(searchterms)
+    }
+   
+
 })
