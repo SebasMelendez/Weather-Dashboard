@@ -2,8 +2,8 @@
 
 ## About The Project
 
-This website will help you organize your day by keeping tabs on all work hours of your day!
-Press the save button to have your data persist!
+This website will help you keep tabs on the weather on any city you like!
+after each query a your last 5 searches are persisted in the history card, even if you refresh or navigate away!
 
 ![Product Name Screen Shot](./assets/images/fullpageScreenshot.jpeg)
 
