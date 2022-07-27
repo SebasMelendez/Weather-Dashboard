@@ -3,7 +3,7 @@
 ## About The Project
 
 This website will help you keep tabs on the weather on any city you like!
-after each query a your last 5 searches are persisted in the history card, even if you refresh or navigate away!
+After each query a your last 5 searches are persisted in the history card, even if you refresh or navigate away!
 
 ![Product Name Screen Shot](./assets/images/fullpageScreenshot.jpeg)
 
